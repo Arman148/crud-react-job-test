@@ -1,11 +1,18 @@
 import React from "react";
-import { Navlink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./style.css";
 
 const Sidebar = () => {
+
+    const navigate = useNavigate();
+
+    const goToAnnouncements = () => {
+        navigate("/announcements");
+    };
+
     return (
         <div className="sidebar">
-            sidebar
+            <button onClick={goToAnnouncements}>Announcements</button>
         </div>
     );
 }
