@@ -6,6 +6,7 @@ import {
     getCoreRowModel,
     useReactTable
 } from "@tanstack/react-table";
+import "./style.css"
 
 const AnnouncementsTable = () => {
 
@@ -13,13 +14,26 @@ const AnnouncementsTable = () => {
 
     const columnHelper = createColumnHelper();
 
+    const handleEdit = (row) => {
+        console.log("Edit clicked for row:", row);
+    };
+
     const columns = useMemo(
         () => [
-            columnHelper.accessor("id", { header: "ID" }),
             columnHelper.accessor("title", { header: "Title" }),
             columnHelper.accessor("publicationDate", { header: "Publication Date" }),
             columnHelper.accessor("lastUpdate", { header: "Last Update" }),
-            columnHelper.accessor("categories", { header: "Categories" })
+            columnHelper.accessor("categories", {
+                header: "Categories",
+                cell: info => info.getValue().join(", ")
+            }),
+            columnHelper.display({
+                id: "actions",
+                header: "Actions",
+                cell: info => (
+                    <button onClick={() => handleEdit(info.row.original)}>Edit</button>
+                )
+            })
         ],
         []
     );
