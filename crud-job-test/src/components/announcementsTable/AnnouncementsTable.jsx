@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../api/classAPI";
 import {
     createColumnHelper,
@@ -14,8 +15,12 @@ const AnnouncementsTable = () => {
 
     const columnHelper = createColumnHelper();
 
+    const navigate = useNavigate();
+
     const handleEdit = (row) => {
         console.log("Edit clicked for row:", row);
+        navigate(`/announcements/edit/${row.id}`);
+
     };
 
     const columns = useMemo(

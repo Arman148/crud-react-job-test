@@ -35,7 +35,7 @@ class Functional {
     }
 
     postFetch(url, data) {
-        fetch(url, {
+        return fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -43,11 +43,14 @@ class Functional {
             body: JSON.stringify(data)
         })
             .then(response => response.json())
-            .catch(error => console.log('error: ', error))
+            .catch(error => {
+                console.log('error: ', error);
+                return null;
+            })
     }
 
     putFetch(url, data) {
-        fetch(url, {
+        return fetch(url, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -55,18 +58,24 @@ class Functional {
             body: JSON.stringify(data)
         })
             .then(response => response.json())
-            .catch(error => console.log('error: ', error))
+            .catch(error => {
+                console.log('error: ', error);
+                return null
+            })
     }
 
     deleteFetch(url) {
-        fetch(url, {
+        return fetch(url, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
             }
         })
             .then(response => console.log('deleted'))
-            .catch(error => console.log('error: ', error))
+            .catch(error => {
+                console.log('error: ', error);
+                return false;
+            })
     }
 }
 
@@ -84,7 +93,7 @@ class AnnouncementsApi extends Functional {
     }
 
     getByID(id) {
-        this.getFetch(`${this.fullUrl}/${id}`);
+        return this.getFetch(`${this.fullUrl}/${id}`);
     }
 
     create(title, publicationDate, lastUpdate, categories) {
@@ -95,7 +104,7 @@ class AnnouncementsApi extends Functional {
             categories
         };
 
-        this.postFetch(this.fullUrl, data);
+        return this.postFetch(this.fullUrl, data);
         this.getList();
     }
 
@@ -107,12 +116,12 @@ class AnnouncementsApi extends Functional {
             categories
         };
 
-        this.putFetch(`${this.fullUrl}/${id}`, data);
+        return this.putFetch(`${this.fullUrl}/${id}`, data);
         this.getList();
     }
 
     delete(id) {
-        this.deleteFetch(`${this.fullUrl}/${id}`);
+        return this.deleteFetch(`${this.fullUrl}/${id}`);
         this.getList();
     }
 
