@@ -21,8 +21,31 @@ const AnnouncementsTable = () => {
     const columns = useMemo(
         () => [
             columnHelper.accessor("title", { header: "Title" }),
-            columnHelper.accessor("publicationDate", { header: "Publication Date" }),
-            columnHelper.accessor("lastUpdate", { header: "Last Update" }),
+            columnHelper.accessor("publicationDate", {
+                header: "Publication Date",
+                cell: info => {
+                    const date = new Date(info.getValue());
+                    return date.toLocaleString("en-US", {
+                        month: "short",
+                        day: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false
+                    });
+                }
+            }),
+            columnHelper.accessor("lastUpdate", {
+                header: "Last Update",
+                cell: info => {
+                    const date = new Date(info.getValue());
+                    return date.toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "2-digit",
+                        year: "numeric"
+                    });
+                }
+            }),
             columnHelper.accessor("categories", {
                 header: "Categories",
                 cell: info => info.getValue().join(", ")
