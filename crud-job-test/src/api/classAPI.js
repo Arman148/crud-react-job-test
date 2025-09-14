@@ -78,6 +78,41 @@ class AnnouncementsApi extends Functional {
     getList() {
         this.getFetch(this.fullUrl);
     }
+
+    getByID(id) {
+        this.getFetch(`${this.fullUrl}/${id}`);
+    }
+
+    create(title, publicationDate, lastUpdate, categories) {
+        const data = {
+            title,
+            publicationDate,
+            lastUpdate,
+            categories
+        };
+
+        this.postFetch(this.fullUrl, data);
+        this.getList();
+    }
+
+    update(id, title, publicationDate, lastUpdate, categories) {
+        const data = {
+            title,
+            publicationDate,
+            lastUpdate,
+            categories
+        };
+
+        this.putFetch(`${this.fullUrl}/${id}`, data);
+        this.getList();
+    }
+
+    delete(id) {
+        this.deleteFetch(`${this.fullUrl}/${id}`);
+        this.getList();
+    }
+
+
 }
 
 console.log("test for api");
