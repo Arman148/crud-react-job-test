@@ -1,22 +1,67 @@
 import React, { useState, useEffect, useMemo } from "react";
 import api from "../../api/classAPI";
-import { useTable, ColumnDef, flexRender, getCoreRowModel } from "@tanstack/react-table";
+import {
+    createColumnHelper,
+    flexRender,
+    getCoreRowModel,
+    useReactTable
+} from "@tanstack/react-table";
 
-const Table = () => {
+const AnnouncementsTable = () => {
 
+    const [data, setData] = useState([]);
+
+    const columnHelper = createColumnHelper();
+
+    const columns = useMemo(
+        () => [
+            columnHelper.accessor("id", { header: "ID" }),
+            columnHelper.accessor("title", { header: "Title" }),
+            columnHelper.accessor("publicationDate", { header: "Publication Date" }),
+            columnHelper.accessor("lastUpdate", { header: "Last Update" }),
+            columnHelper.accessor("categories", { header: "Categories" })
+        ],
+        []
+    );
+
+    const table = useReactTable({
+        data,
+        columns,
+        getCoreRowModel: getCoreRowModel()
+    });
 
     useEffect(() => {
-        api.announcements.getList();
-        //api.announcements.create("title 11", "03/27/2023 9:32", "03/29/2023 00:00", ["city", "health", "sport"]);
-        //api.announcements.update(11, "title 11 - the new title", "03/27/2023 9:32", "03/30/2023 8:52", ["health", "sport", "culture"]);
+        api.announcements.getList().then(data => setData(data));
+    }, []);
 
-    })
+    console.log(data);
 
     return (
-        <div>
-
-        </div>
+        <table>
+            <thead>
+                {table.getHeaderGroups().map(headerGroup => (
+                    <tr key={headerGroup.id}>
+                        {headerGroup.headers.map(header => (
+                            <th key={header.id}>
+                                {flexRender(header.column.columnDef.header, header.getContext())}
+                            </th>
+                        ))}
+                    </tr>
+                ))}
+            </thead>
+            <tbody>
+                {table.getRowModel().rows.map(row => (
+                    <tr key={row.id}>
+                        {row.getVisibleCells().map(cell => (
+                            <td key={cell.id}>
+                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </td>
+                        ))}
+                    </tr>
+                ))}
+            </tbody>
+        </table>
     );
 };
 
-export default Table
+export default AnnouncementsTable

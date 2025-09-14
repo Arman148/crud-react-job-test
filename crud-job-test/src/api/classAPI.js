@@ -20,14 +20,18 @@ class Functional {
     }
 
     getFetch(url) {
-        fetch(url)
+        return fetch(url)
             .then((response) => {
                 return response.json();
             })
             .then((data) => {
                 console.log(data);
+                return data;
             })
-            .catch(error => console.log('error: ', error))
+            .catch(error => {
+                console.log('error: ', error);
+                return [];
+            })
     }
 
     postFetch(url, data) {
@@ -75,8 +79,8 @@ class AnnouncementsApi extends Functional {
         this.fullUrl = `${this.url}${this.endpoint}`;
     }
 
-    getList() {
-        this.getFetch(this.fullUrl);
+    getList(callback) {
+        return this.getFetch(this.fullUrl);
     }
 
     getByID(id) {
