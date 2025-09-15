@@ -1,3 +1,20 @@
-.sidebar {
-    background-color: aqua;
+button {
+    background-color: #fff8dc;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 16px;
+    font-weight: 500;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #ffeeba;
+}
+
+button:active {
+    background-color: ffd966;
 }
