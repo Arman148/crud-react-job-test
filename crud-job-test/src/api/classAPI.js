@@ -109,12 +109,13 @@ class AnnouncementsApi extends Functional {
         this.getList();
     }
 
-    update(id, title, content, categories, publicationDate) {
+    update(id, title, content, publicationDate, lastUpdate, categories) {
         const data = {
             title,
             content,
-            categories,
-            publicationDate
+            publicationDate,
+            lastUpdate,
+            categories
         };
 
         return this.putFetch(`${this.fullUrl}/${id}`, data);

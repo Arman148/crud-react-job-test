@@ -5,6 +5,7 @@ import api from "../../api/classAPI";
 import WarningWindow from "../../components/warningWindow/WarningWindow";
 import "./style.css";
 
+// same
 const categoryOptions = [
     { value: "City", label: "City" },
     { value: "Community events", label: "Community events" },
@@ -24,8 +25,9 @@ const categoryOptions = [
 ];
 
 const CreateAnnouncementPage = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // same
 
+    // same
     const [announcement, setAnnouncement] = useState({
         title: "",
         content: "",
@@ -33,6 +35,7 @@ const CreateAnnouncementPage = () => {
         categories: []
     });
 
+    //same
     const [warning, setWarning] = useState("");
 
     const handleChange = (e) => {

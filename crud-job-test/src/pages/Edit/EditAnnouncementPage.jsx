@@ -5,6 +5,7 @@ import api from "../../api/classAPI";
 import WarningWindow from "../../components/warningWindow/WarningWindow";
 import "./style.css";
 
+// same
 const categoryOptions = [
     { value: "City", label: "City" },
     { value: "Community events", label: "Community events" },
@@ -26,8 +27,9 @@ const categoryOptions = [
 const EditAnnouncementPage = () => {
 
     const { id } = useParams();
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // same
 
+    //same
     const [announcement, setAnnouncement] = useState({
         title: "",
         content: "",
@@ -35,8 +37,10 @@ const EditAnnouncementPage = () => {
         categories: []
     });
 
+    //same
     const [warning, setWarning] = useState("");
 
+    // useEffect does not repeat
     useEffect(() => {
         api.announcements.getByID(id).then(data => {
 
@@ -62,12 +66,14 @@ const EditAnnouncementPage = () => {
         });
     }, [id]);
 
+    // same
     const handleChange = (e) => {
         const { name, value } = e.target;
         setAnnouncement(prev => ({ ...prev, [name]: value }));
         console.log("Changing field:", name, "=>", value);
     };
 
+    // same
     const handleCategoriesChange = (selectedOptions) => {
         setAnnouncement(prev => ({
             ...prev,
@@ -78,20 +84,14 @@ const EditAnnouncementPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!announcement.title.trim()) {
-            return setWarning("Title cannot be empty.");
-        }
-        if (!announcement.content.trim()) {
-            return setWarning("Content cannot be empty.");
-        }
-        if (!announcement.publicationDate) {
-            return setWarning("Publication date is required.");
-        }
-        if (!announcement.categories || announcement.categories.length === 0) {
-            return setWarning("Please select at least one category.");
-        }
+        if (!announcement.title.trim()) return setWarning("Title cannot be empty.");
+        if (!announcement.content.trim()) return setWarning("Content cannot be empty.");
+        if (!announcement.publicationDate) return setWarning("Publication date is required.");
+        if (!announcement.categories || announcement.categories.length === 0) return setWarning("Please select at least one category.");
 
-        const categories = announcement.categories.map(opt => opt.value);
+        const categories = Array.isArray(announcement.categories)
+            ? announcement.categories.map(opt => opt.value)
+            : []
 
         const rawDate = new Date(announcement.publicationDate);
 
@@ -112,8 +112,9 @@ const EditAnnouncementPage = () => {
             id,
             announcement.title,
             announcement.content,
-            categories,
-            formattedDate
+            formattedDate,
+            formattedDate,
+            categories
         );
 
         navigate("/announcements");
