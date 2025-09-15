@@ -1,55 +1,77 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import Select from "react-select";
 import api from "../../api/classAPI";
+import "./style.css";
+
+const categoryOptions = [
+    { value: "City", label: "City" },
+    { value: "Community events", label: "Community events" },
+    { value: "Crime and Safety", label: "Crime and Safety" },
+    { value: "Culture", label: "Culture" },
+    { value: "Discounts & Benefits", label: "Discounts & Benefits" },
+    { value: "Emergencies", label: "Emergencies" },
+    { value: "For Seniors", label: "For Seniors" },
+    { value: "Health", label: "Health" },
+    { value: "Kids & Family", label: "Kids & Family" },
+
+
+
+];
 
 const EditAnnouncementPage = () => {
-    const { id } = useParams(); // Get announcement ID from URL
+    const { id } = useParams();
     const navigate = useNavigate();
 
     const [announcement, setAnnouncement] = useState({
         title: "",
+        content: "",
         publicationDate: "",
-        lastUpdate: "",
         categories: []
     });
 
     useEffect(() => {
         api.announcements.getByID(id).then(data => {
-            setAnnouncement(data);
+            setAnnouncement({
+                ...data,
+                categories: data.categories.map(cat => ({ label: cat, value: cat }))
+            });
+            console.log(announcement);
         });
     }, [id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setAnnouncement(prev => ({ ...prev, [name]: value }));
+        console.log("Changing field:", name, "=>", value);
     };
 
-    const handleCategoriesChange = (e) => {
-        const value = e.target.value;
+    const handleCategoriesChange = (selectedOptions) => {
         setAnnouncement(prev => ({
             ...prev,
-            categories: value.split(",").map(cat => cat.trim())
+            categories: selectedOptions
         }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const categories = announcement.categories.map(opt => opt.value);
         api.announcements.update(
             id,
             announcement.title,
-            announcement.publicationDate,
-            announcement.lastUpdate,
-            announcement.categories
+            announcement.content,
+            categories,
+            announcement.publicationDate
         );
-        navigate("/announcements"); // Return to announcements table after saving
+        navigate("/announcements");
     };
 
     return (
-        <div>
-            <h2>Edit Announcement</h2>
+        <div className="edit-announcement">
+            <h2>Edit the announcement</h2>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Title:</label>
+                <div className="form-group">
+                    <label>Title</label>
                     <input
                         type="text"
                         name="title"
@@ -57,8 +79,8 @@ const EditAnnouncementPage = () => {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
-                    <label>Content:</label>
+                <div className="form-group">
+                    <label>Content</label>
                     <input
                         type="text"
                         name="content"
@@ -66,24 +88,28 @@ const EditAnnouncementPage = () => {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
-                    <label>Categories</label>
-                    <input
-                        type="text"
-                        value={announcement.categories.join(", ")}
+                <div className="form-group">
+                    <label>Category</label>
+                    <Select
+                        isMulti
+                        name="categories"
+                        value={announcement.categories}
                         onChange={handleCategoriesChange}
+                        options={categoryOptions}
+                        className="react-select-container"
+                        classNamePrefix="react-select"
                     />
                 </div>
-                <div>
-                    <label>Publication Date:</label>
+                <div className="form-group">
+                    <label>Publication date</label>
                     <input
-                        type="text"
+                        type="datetime-local"
                         name="publicationDate"
                         value={announcement.publicationDate}
                         onChange={handleChange}
                     />
                 </div>
-                <button type="submit">Save</button>
+                <button className="publish-btn" type="submit">Publish</button>
             </form>
         </div>
     );
