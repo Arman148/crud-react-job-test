@@ -13,7 +13,7 @@ function App() {
         <main className="main-content">
           <Routes>
             <Route path="/announcements" element={<AnnouncementsPage />} />
-            <Route path="/announcements/edit/:id" element={<EditAnnouncementPage />} />
+            <Route path="/announcements/:id" element={<EditAnnouncementPage />} />
             <Route path="*" element={<Navigate to="/announcements" replace />} />
           </Routes>
         </main>

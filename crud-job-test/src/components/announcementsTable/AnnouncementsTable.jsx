@@ -19,7 +19,7 @@ const AnnouncementsTable = () => {
 
     const handleEdit = (row) => {
         console.log("Edit clicked for row:", row);
-        navigate(`/announcements/edit/${row.id}`);
+        navigate(`/announcements/${row.id}`);
 
     };
 
