@@ -56,13 +56,29 @@ const EditAnnouncementPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const categories = announcement.categories.map(opt => opt.value);
+
+        const rawDate = new Date(announcement.publicationDate);
+
+        const datePart = rawDate.toLocaleDateString("en-US", {
+            month: "2-digit",
+            day: "2-digit",
+            year: "numeric"
+        });
+        const timePart = rawDate.toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false
+        });
+        const formattedDate = `${datePart} ${timePart}`;
+
         api.announcements.update(
             id,
             announcement.title,
             announcement.content,
             categories,
-            announcement.publicationDate
+            formattedDate
         );
+
         navigate("/announcements");
     };
 
