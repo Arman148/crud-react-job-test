@@ -36,12 +36,12 @@ textarea {
 }
 
 .publish-btn {
-    background-color: #f6a821;
-    color: white;
+    background-color: #ff9f29;
+    color: black;
     padding: 10px 20px;
     border: none;
     font-weight: bold;
-    border-radius: 6px;
+    border-radius: 15px;
     cursor: pointer;
 }
 
