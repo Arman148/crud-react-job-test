@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Sidebar from "./components/sidebar/Sidebar";
 import AnnouncementsPage from "./pages/announcements/AnnouncementsPage";
 import EditAnnouncementPage from "./pages/Edit/EditAnnouncementPage";
+import CreateAnnouncementPage from "./pages/create/CreateAnnouncementPage";
 import "./styles/App.css";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <main className="main-content">
           <Routes>
             <Route path="/announcements" element={<AnnouncementsPage />} />
+            <Route path="/announcements/create" element={<CreateAnnouncementPage />} />
             <Route path="/announcements/:id" element={<EditAnnouncementPage />} />
             <Route path="*" element={<Navigate to="/announcements" replace />} />
           </Routes>

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import api from "../../api/classAPI";
 import WarningWindow from "../../components/warningWindow/WarningWindow";
@@ -23,9 +23,7 @@ const categoryOptions = [
     { value: "Kids & Family", label: "Kids & Family" },
 ];
 
-const EditAnnouncementPage = () => {
-
-    const { id } = useParams();
+const CreateAnnouncementPage = () => {
     const navigate = useNavigate();
 
     const [announcement, setAnnouncement] = useState({
@@ -37,35 +35,9 @@ const EditAnnouncementPage = () => {
 
     const [warning, setWarning] = useState("");
 
-    useEffect(() => {
-        api.announcements.getByID(id).then(data => {
-
-            let formattedDate = "";
-
-            // changing MM/DD/YYYY HH:mm format to YYYY-MM-DDTHH:MM so the date field will read the old publication date
-            if (data.publicationDate) {
-                const [datePart, timePart] = data.publicationDate.split(" ");
-                const [month, day, year] = datePart.split("/");
-                const [hour, minute] = timePart.split(":");
-
-                formattedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}T${hour.padStart(2, "0")}:${minute.padStart(2, "0")}`;
-            }
-
-            setAnnouncement({
-                ...data,
-                publicationDate: formattedDate,
-                categories: Array.isArray(data.categories)
-                    ? data.categories.map(cat => ({ label: cat, value: cat }))
-                    : []
-            });
-            console.log(announcement);
-        });
-    }, [id]);
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setAnnouncement(prev => ({ ...prev, [name]: value }));
-        console.log("Changing field:", name, "=>", value);
     };
 
     const handleCategoriesChange = (selectedOptions) => {
@@ -75,27 +47,20 @@ const EditAnnouncementPage = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!announcement.title.trim()) {
-            return setWarning("Title cannot be empty.");
-        }
-        if (!announcement.content.trim()) {
-            return setWarning("Content cannot be empty.");
-        }
-        if (!announcement.publicationDate) {
-            return setWarning("Publication date is required.");
-        }
-        if (!announcement.categories || announcement.categories.length === 0) {
-            return setWarning("Please select at least one category.");
-        }
+        if (!announcement.title.trim()) return setWarning("Title cannot be empty.");
+        if (!announcement.content.trim()) return setWarning("Content cannot be empty.");
+        if (!announcement.publicationDate) return setWarning("Publication date is required.");
+        if (!announcement.categories || announcement.categories.length === 0) return setWarning("Please select at least one category.");
 
-        const categories = announcement.categories.map(opt => opt.value);
+        const categories = Array.isArray(announcement.categories)
+            ? announcement.categories.map(opt => opt.value)
+            : []
 
         const rawDate = new Date(announcement.publicationDate);
 
-        // hardcoded
         const datePart = rawDate.toLocaleDateString("en-US", {
             month: "2-digit",
             day: "2-digit",
@@ -108,12 +73,12 @@ const EditAnnouncementPage = () => {
         });
         const formattedDate = `${datePart} ${timePart}`;
 
-        api.announcements.update(
-            id,
+        await api.announcements.create(
             announcement.title,
             announcement.content,
-            categories,
-            formattedDate
+            formattedDate,  // publicationDate
+            formattedDate,  // lastUpdate
+            categories
         );
 
         navigate("/announcements");
@@ -121,7 +86,7 @@ const EditAnnouncementPage = () => {
 
     return (
         <div className="edit-announcement">
-            <h2>Edit the announcement</h2>
+            <h2>Create New Announcement</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Title</label>
@@ -168,4 +133,4 @@ const EditAnnouncementPage = () => {
     );
 };
 
-export default EditAnnouncementPage;
+export default CreateAnnouncementPage;

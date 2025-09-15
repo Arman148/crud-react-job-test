@@ -45,3 +45,8 @@ td button {
 td button:hover {
     background-color: grey;
 }
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}

@@ -10,6 +10,10 @@ const Sidebar = () => {
         navigate("/announcements");
     };
 
+    const goToCreateAnnouncement = () => {
+        navigate("/announcements/create");
+    };
+
     return (
         <div className="sidebar">
             <div>City Name</div>
@@ -29,6 +33,9 @@ const Sidebar = () => {
                     <path d="M15 10h4v4h-4z" />
                 </svg>
                 Announcements
+            </button>
+            <button onClick={goToCreateAnnouncement}>
+                Create Announcement
             </button>
         </div>
     );

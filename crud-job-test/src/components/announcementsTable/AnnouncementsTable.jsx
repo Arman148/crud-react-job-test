@@ -24,6 +24,14 @@ const AnnouncementsTable = () => {
 
     };
 
+    const handleDelete = async (row) => {
+        if (window.confirm("Are you sure you want to delete this announcement?")) {
+            await api.announcements.delete(row.id);
+            // Refresh table after delete
+            setData(prev => prev.filter(item => item.id !== row.id));
+        }
+    };
+
     const columns = useMemo(
         () => [
             columnHelper.accessor("title", { header: "Title" }),
@@ -54,13 +62,19 @@ const AnnouncementsTable = () => {
             }),
             columnHelper.accessor("categories", {
                 header: "Categories",
-                cell: info => info.getValue().join(", ")
+                cell: info => {
+                    const categories = info.getValue();
+                    return Array.isArray(categories) ? categories.join(", ") : "";
+                }
             }),
             columnHelper.display({
                 id: "actions",
                 header: "Actions",
                 cell: info => (
-                    <button onClick={() => handleEdit(info.row.original)}>Edit</button>
+                    <div className="action-buttons" >
+                        <button onClick={() => handleEdit(info.row.original)}>Edit</button>
+                        <button onClick={() => handleDelete(info.row.original)}>Delete</button>
+                    </div>
                 )
             })
         ],
@@ -83,8 +97,6 @@ const AnnouncementsTable = () => {
     useEffect(() => {
         api.announcements.getList().then(data => setData(data));
     }, []);
-
-    console.log(data);
 
     return (
         <table>

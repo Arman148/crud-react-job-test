@@ -96,9 +96,10 @@ class AnnouncementsApi extends Functional {
         return this.getFetch(`${this.fullUrl}/${id}`);
     }
 
-    create(title, publicationDate, lastUpdate, categories) {
+    create(title, content, publicationDate, lastUpdate, categories) {
         const data = {
             title,
+            content,
             publicationDate,
             lastUpdate,
             categories
