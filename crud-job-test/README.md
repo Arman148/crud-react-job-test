@@ -54,3 +54,7 @@ Setup Instructions:
 
 - Start the development server:
     npm start
+
+    MockAPI address:
+
+    https://68c6f26d442c663bd02864f8.mockapi.io/announcements
