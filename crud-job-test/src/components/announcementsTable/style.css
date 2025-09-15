@@ -32,8 +32,8 @@ td {
 }
 
 td button {
-    background-color: rgb(197, 197, 197);
-    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(0, 0, 0);
     border: none;
     border-radius: 6px;
     padding: 6px 12px;
@@ -43,10 +43,17 @@ td button {
 }
 
 td button:hover {
-    background-color: grey;
+    background-color: rgba(0, 0, 0, 0);
+
 }
 
 .action-buttons {
     display: flex;
     gap: 8px;
+    flex-wrap: wrap;
+}
+
+.action-buttons button {
+    flex: 1;
+    min-width: 50px;
 }

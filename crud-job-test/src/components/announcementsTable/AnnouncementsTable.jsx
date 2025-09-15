@@ -8,6 +8,7 @@ import {
     useReactTable,
     getSortedRowModel
 } from "@tanstack/react-table";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import "./style.css"
 
 const AnnouncementsTable = () => {
@@ -72,8 +73,12 @@ const AnnouncementsTable = () => {
                 header: "Actions",
                 cell: info => (
                     <div className="action-buttons" >
-                        <button onClick={() => handleEdit(info.row.original)}>Edit</button>
-                        <button onClick={() => handleDelete(info.row.original)}>Delete</button>
+                        <button onClick={() => handleEdit(info.row.original)} title="Edit">
+                            <FaEdit />
+                        </button>
+                        <button onClick={() => handleDelete(info.row.original)} title="Delete">
+                            <FaTrash />
+                        </button>
                     </div>
                 )
             })
