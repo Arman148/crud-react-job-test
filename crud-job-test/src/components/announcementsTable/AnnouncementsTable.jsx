@@ -5,7 +5,8 @@ import {
     createColumnHelper,
     flexRender,
     getCoreRowModel,
-    useReactTable
+    useReactTable,
+    getSortedRowModel
 } from "@tanstack/react-table";
 import "./style.css"
 
@@ -66,10 +67,17 @@ const AnnouncementsTable = () => {
         []
     );
 
+    const [sorting, setSorting] = useState([
+        { id: "lastUpdate", desc: true }
+    ]);
+
     const table = useReactTable({
         data,
         columns,
-        getCoreRowModel: getCoreRowModel()
+        state: { sorting },
+        onSortingChange: setSorting,
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel()
     });
 
     useEffect(() => {
@@ -84,13 +92,22 @@ const AnnouncementsTable = () => {
                 {table.getHeaderGroups().map(headerGroup => (
                     <tr key={headerGroup.id}>
                         {headerGroup.headers.map(header => (
-                            <th key={header.id}>
+                            <th
+                                key={header.id}
+                                onClick={header.column.getToggleSortingHandler()}
+                                style={{ cursor: "pointer" }}
+                            >
                                 {flexRender(header.column.columnDef.header, header.getContext())}
+                                {{
+                                    asc: " ▲",
+                                    desc: " ▼"
+                                }[header.column.getIsSorted()] ?? null}
                             </th>
                         ))}
                     </tr>
                 ))}
             </thead>
+
             <tbody>
                 {table.getRowModel().rows.map(row => (
                     <tr key={row.id}>
