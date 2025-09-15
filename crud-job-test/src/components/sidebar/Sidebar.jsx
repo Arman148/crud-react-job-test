@@ -54,7 +54,7 @@ const Sidebar = () => {
                 >
                     <path d="M12 5v14M5 12h14" />
                 </svg>
-                Create Announcement
+                New Announcement
             </button>
         </div>
     );

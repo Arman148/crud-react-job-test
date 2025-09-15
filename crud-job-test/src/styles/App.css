@@ -32,4 +32,6 @@
     flex: 1;
     padding: 1rem;
     background: #fff;
+    border-top: 2px solid #f7f7f7;
+    margin-top: 50px;
 }

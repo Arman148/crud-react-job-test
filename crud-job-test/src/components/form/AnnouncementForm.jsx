@@ -25,11 +25,14 @@ export const categoryOptions = [
 
 const Form = ({ announcement, setAnnouncement, warning, setWarning, handleSubmit, title }) => {
 
+    // Handles changes for text inputs (title, content, publicationDate)
     const handleChange = (e) => {
         const { name, value } = e.target;
+        // Update only the field that changed while keeping other fields intact
         setAnnouncement(prev => ({ ...prev, [name]: value }));
     };
 
+    // Handles changes for the multi-select categories
     const handleCategoriesChange = (selectedOptions) => {
         setAnnouncement(prev => ({ ...prev, categories: selectedOptions }));
     };

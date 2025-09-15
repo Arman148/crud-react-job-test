@@ -20,12 +20,16 @@ const EditAnnouncementPage = () => {
     useEffect(() => {
         api.announcements.getByID(id).then(data => {
             let formattedDate = "";
+
+            // Convert stored MM/DD/YYYY HH:mm format to
+            // YYYY-MM-DDTHH:mm so it works with <input type="datetime-local">
             if (data.publicationDate) {
                 const [datePart, timePart] = data.publicationDate.split(" ");
                 const [month, day, year] = datePart.split("/");
                 const [hour, minute] = timePart.split(":");
                 formattedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}T${hour.padStart(2, "0")}:${minute.padStart(2, "0")}`;
             }
+            // Set the announcement state with the loaded data
             setAnnouncement({
                 ...data,
                 publicationDate: formattedDate,
@@ -39,9 +43,11 @@ const EditAnnouncementPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            // This handles validation, formats date, and extracts categories
             const { title, content, categories, formattedDate } =
                 prepareAnnouncementForSubmit(announcement);
 
+            // Send the updated data to the API
             await api.announcements.update(
                 id,
                 title,

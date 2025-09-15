@@ -16,12 +16,16 @@ const CreateAnnouncementPage = () => {
 
     const [warning, setWarning] = useState("");
 
+    // Form submission handler
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            // This handles validation, formats date, and extracts categories
             const { title, content, categories, formattedDate } =
                 prepareAnnouncementForSubmit(announcement);
 
+            // Send the new announcement to the backend
+            // publicationDate and lastUpdate are both set to the formatted date
             await api.announcements.create(
                 title,
                 content,

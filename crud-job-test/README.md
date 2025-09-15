@@ -1,70 +1,56 @@
-# Getting Started with Create React App
+README
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Project Overview:
+For this task, I had the freedom to store data anywhere I wanted, so I decided to use MockAPI and create a fully functional CRUD application using fetch requests.
 
-## Available Scripts
+Project Setup and Structure:
 
-In the project directory, you can run:
+1. I first set up the API with basic data in the same style provided in the task.
+2. Next, I organized the project structure, dividing it into components, pages, api, styles, and utils folders.
+3. I implemented classAPI, a utility I had written previously for another CRUD project (available on my GitHub).
+4. I created a simple sidebar with buttons for navigation.
+5. I implemented the main page for Announcements, which contains a table built with react-table. In the original task, the table only had an edit button.
+6. I added a page for editing announcements, initially implementing a form to edit existing data.
+7. I continued developing the CRUD functionality by adding delete and create buttons. Each row in the table can now be deleted by ID, and the sidebar includes a button to navigate to the Create Announcement page.
+8. To avoid repeating code, I separated the form logic into a reusable component and kept only initialization in the Create and Edit pages.
+9. Some data preparation functions were moved to utils, so the data handling for announcements is separate from the submit logic.
+10. Finally, I focused on CSS improvements, making the UI cleaner, more user-friendly, and visually closer to the original design, and added comments throughout the code.
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Key Implementation Details:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. Table Sorting and Last Update Logic:
+- The table initially sorts by last update.
+- When editing, I chose to synchronize last update with publication date to maintain logical consistency.
+- Columns can be sorted interactively by clicking on them.
 
-### `npm test`
+2. Date Handling:
+- Original date format was MM/DD/YYYY HH:mm.
+- I improved the UI by using <input type="datetime-local">, preventing users from entering invalid dates.
+- The format is double-checked before sending data to the API.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. CRUD Functionality:
+- CRUD operations work with the API, not just a local array.
+- The Create and Delete buttons manage both backend data and the user interface, giving full control over announcements.
 
-### `npm run build`
+Technologies & Libraries Used:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- React – for building the UI
+- React Router – for page navigation
+- react-select – for multi-select categories
+- @tanstack/react-table – for dynamic, sortable tables
+- react-icons – for icons like pencil and trash
+- MockAPI – to simulate a backend API
+- CSS – for styling and responsive design
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Setup Instructions:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Clone the repository:
+    git clone <repository-url>
+    cd <project-folder>
 
-### `npm run eject`
+- Install dependencies:
+    npm install
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Start the development server:
+    npm start

@@ -15,16 +15,19 @@ const AnnouncementsTable = () => {
 
     const [data, setData] = useState([]);
 
+    // Helper to define columns more easily
     const columnHelper = createColumnHelper();
 
     const navigate = useNavigate();
 
+    // Function triggered when "Edit" button is clicked
     const handleEdit = (row) => {
         console.log("Edit clicked for row:", row);
         navigate(`/announcements/${row.id}`);
 
     };
 
+    // Function triggered when "Delete" button is clicked
     const handleDelete = async (row) => {
         if (window.confirm("Are you sure you want to delete this announcement?")) {
             await api.announcements.delete(row.id);
@@ -33,13 +36,18 @@ const AnnouncementsTable = () => {
         }
     };
 
+    // Define table columns
     const columns = useMemo(
         () => [
+            // Title column
             columnHelper.accessor("title", { header: "Title" }),
+
+            // Publication Date column
             columnHelper.accessor("publicationDate", {
                 header: "Publication Date",
                 cell: info => {
                     const date = new Date(info.getValue());
+                    // Format date and time
                     return date.toLocaleString("en-US", {
                         month: "short",
                         day: "2-digit",
@@ -50,6 +58,8 @@ const AnnouncementsTable = () => {
                     });
                 }
             }),
+
+            // Last Update column
             columnHelper.accessor("lastUpdate", {
                 header: "Last Update",
                 cell: info => {
@@ -61,6 +71,8 @@ const AnnouncementsTable = () => {
                     });
                 }
             }),
+
+            // Categories column
             columnHelper.accessor("categories", {
                 header: "Categories",
                 cell: info => {
@@ -68,6 +80,8 @@ const AnnouncementsTable = () => {
                     return Array.isArray(categories) ? categories.join(", ") : "";
                 }
             }),
+
+            // Actions column (Edit and Delete buttons)
             columnHelper.display({
                 id: "actions",
                 header: "Actions",
@@ -83,22 +97,23 @@ const AnnouncementsTable = () => {
                 )
             })
         ],
-        []
+        [] // ensures columns are only created once
     );
 
     const [sorting, setSorting] = useState([
-        { id: "lastUpdate", desc: true }
+        { id: "lastUpdate", desc: true } // initially sort by lastUpdate descending
     ]);
 
     const table = useReactTable({
         data,
         columns,
-        state: { sorting },
-        onSortingChange: setSorting,
-        getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel()
+        state: { sorting }, // Current sorting state
+        onSortingChange: setSorting, // Function to update sorting
+        getCoreRowModel: getCoreRowModel(), // Core row model
+        getSortedRowModel: getSortedRowModel() // Sorted row model
     });
 
+    // Fetch announcements from API when component mounts
     useEffect(() => {
         api.announcements.getList().then(data => setData(data));
     }, []);

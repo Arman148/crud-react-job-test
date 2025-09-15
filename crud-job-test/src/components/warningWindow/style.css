@@ -12,7 +12,7 @@
 }
 
 .warning-box {
-    background: #fff3cd;
+    background: #f7f7f7;
     border: 1px solid #ffecb5;
     padding: 20px;
     border-radius: 8px;
@@ -23,15 +23,16 @@
 
 .warning-box h3 {
     margin-top: 0;
-    color: #856404;
+    color: #dd9700;
 }
 
 .warning-box button {
+    width: 90px;
     margin-top: 15px;
     padding: 8px 16px;
     border: none;
-    background: #856404;
+    background: #dd9700;
     color: white;
-    border-radius: 5px;
+    border-radius: 15px;
     cursor: pointer;
 }
