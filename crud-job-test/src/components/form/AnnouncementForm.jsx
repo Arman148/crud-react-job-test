@@ -34,8 +34,16 @@ const Form = ({ announcement, setAnnouncement, warning, setWarning, handleSubmit
 
     // Handles changes for the multi-select categories
     const handleCategoriesChange = (selectedOptions) => {
+
+
         setAnnouncement(prev => ({ ...prev, categories: selectedOptions }));
+
+
     };
+
+
+
+
 
     return (
         <div className="edit-announcement">
